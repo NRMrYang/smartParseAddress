@@ -55,7 +55,7 @@ class AddressParse {
     };
 
     //自定义去除关键字，可自行添加
-    const List search =  ['地址', '收货地址', '收货人', '收件人', '收货', '邮编', '电话', '：', ':', '；', ';', '，', ',', '。',' '];
+    const List search =  ['地址', '收货地址', '收货人', '收件人', '收货', '邮编', '电话', '：', ':', '；', ';', '，', ',', '。', '联系人', '\n', '手机'];
     search.forEach((str) {
       address = address.replaceAll(str, ' ');
     });
@@ -342,12 +342,12 @@ class AddressParse {
 
     if (address.indexOf('市') > -1 || address.indexOf('盟') > -1 || address.indexOf('州') > -1) {
       if (address.indexOf('市') > -1) {
-        parse['_area'] = address.substring(address.indexOf('市') - 2, address.indexOf('州'));
+        parse['_area'] = address.substring(address.indexOf('市') - 2, address.indexOf('市'));
       }
-      if (address.indexOf('盟') > -1 && !mCity[parse['_area']]) {
-        parse['_area'] = address.substring(address.indexOf('盟') - 2, address.indexOf('州'));
+      if (address.indexOf('盟') > -1 && (mCity[parse['_area']] == null || mCity[parse['_area']].length == 0)) {
+        parse['_area'] = address.substring(address.indexOf('盟') - 2, address.indexOf('盟'));
       }
-      if (address.indexOf('州') > -1 && !mCity[parse['_area']]) {
+      if (address.indexOf('州') > -1 && (mCity[parse['_area']] == null || mCity[parse['_area']].length == 0)) {
         parse['_area'] = address.substring(address.indexOf('州') - 2, address.indexOf('州'));
       }
     }
